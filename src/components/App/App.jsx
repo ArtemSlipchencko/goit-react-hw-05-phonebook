@@ -3,26 +3,26 @@ import './App.css';
 import Form from '../Form/Form';
 import Contacts from '../Contascts/Contacts';
 import Filter from '../Filter/Filter';
+import Alert from '../Alert/Alert';
+import {CSSTransition} from 'react-transition-group';
 
 class App extends Component {
 
     state = {
-        contacts: [
-            {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-            {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-            {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-            {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'}
-        ],
-        filter: ''
+        showLogo: false,
+        contacts: [],
+        filter: '',
+        contactExist: false
     };
 
     componentDidMount() {
 
         const localContacts = localStorage.getItem('contacts');
-    
-        if(localContacts) {
+        if(localContacts.length > 0) {
             this.setState({contacts: JSON.parse(localContacts)});
         }
+
+        this.setState(state => ({showLogo: !state.showLogo}));
 
     };
 
@@ -55,7 +55,7 @@ class App extends Component {
         const {contacts} = this.state;
 
         if (contacts.find((el) => el.name === contact.name)) {
-            alert(`${contact.name} is already in contacts`);
+            this.setState({contactExist: true}) 
             return;
         };
         this.setState( state => {
@@ -73,19 +73,28 @@ class App extends Component {
 
     };
 
+    alertOk = () => {
+        this.setState({contactExist: false})
+    };
+
     render() {
 
-        const {filter} = this.state;
+        const {filter, showLogo, contactExist} = this.state;
         const searchedContacts = this.findContact();
 
         return (
             <>
-                <h1>Phone book</h1>
+                <CSSTransition in={showLogo} unmountOnExit classNames="logo" timeout={500}>
+                    <h1>Phonebook</h1>
+                </CSSTransition>
                 <h2>Contacts form</h2>
                 <Form addContact={this.addContact} />
                 <h2>Contacts list</h2>
                 <Filter filter={filter} handleFilter={this.handleFilter} />
                 <Contacts contacts={searchedContacts} deleteContact={this.deleteContact} />
+                <CSSTransition in={contactExist} unmountOnExit classNames="alert" timeout={250}>
+                    <Alert ok={this.alertOk} />
+                </CSSTransition>
             </>
         );
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './Contacts.css';
 import PropTypes from 'prop-types';
+import {TransitionGroup, CSSTransition} from 'react-transition-group';
+import './Contacts.css';
 
 class Contacts extends Component {
 
@@ -14,17 +15,19 @@ class Contacts extends Component {
         const {contacts, deleteContact} = this.props;
         
         return (
-            <ul>
+            <TransitionGroup component="ul">
 
                 {
                     contacts.map(el => {
                         return (
-                            <li key={el.id}>{el.name}: {el.number} <button type="button" onClick={() => deleteContact(el.id)}>Delete</button></li>
+                            <CSSTransition key={el.id} timeout={250} classNames="contact">
+                                <li >{el.name}: {el.number} <button type="button" onClick={() => deleteContact(el.id)}>Delete</button></li>
+                            </CSSTransition>
                         )
                     })
                 }
 
-            </ul>
+            </TransitionGroup>
     )}
 
 };

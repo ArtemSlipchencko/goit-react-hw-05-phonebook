@@ -13,3 +13,32 @@ h1 {
 h2 {
     text-align: center;
 }
+
+.logo-enter {
+    transform: translateY(-300%)
+}
+
+.logo-enter-active {
+    transform: translateY(0);
+    transition: all 500ms linear;
+}
+
+.alert-enter {
+    opacity: 0;
+    transform: scale(0.1);
+}
+.alert-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 250ms linear;
+}
+
+.alert-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+.alert-exit-active {
+    opacity: 0;
+    transform: scale(0.1);
+    transition: all 250ms linear;
+}

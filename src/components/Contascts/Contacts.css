@@ -8,3 +8,25 @@ ul {
     justify-content: center;
     align-items: center;
 }
+
+.contact-enter {
+    opacity: 0;
+    transform: translateX(200%);
+}
+
+.contact-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 250ms linear;
+}
+
+.contact-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.contact-exit-active {
+    transform: translateX(-200%);
+    opacity: 0;
+    transition: all 250ms linear;
+}
